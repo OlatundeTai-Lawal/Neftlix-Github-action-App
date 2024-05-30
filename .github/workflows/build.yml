@@ -35,4 +35,15 @@ jobs:
           sudo apt-get install trivy -y
           #command to scan files
           trivy fs .
+        
+      -  name: Docker build and push
+         run: | 
+              # run command to build and push docker images
+              docker build --build-arg TMBD_V3_API_KEY=43d4092fbf03b14db61d7482e6a0dd3d -t neftlix .
+              docker tag neftlix tundeficky/neftlix:latest
+              docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} 
+              docker push tundeficky/neftlix:latest
+         env:  
+              DOCKER_CLI_ACI: 1
+     
 
